@@ -6,6 +6,9 @@
   this->pin = pin;
   this->isPullUp = isPullUp;
   this->internalPullUpActivated = internalPullUpActivated;
+
+  lastTimeStateChanged = millis();
+  debounceDelay = 50;
 }
 
 void PushButton::init()
@@ -16,21 +19,29 @@ void PushButton::init()
   else {
     pinMode(pin, INPUT);
   }
-  readState();
+  state = digitalRead(pin);
 }
 
 void PushButton::readState()
 {
-  state = digitalRead(pin);
+  unsigned long timeNow = millis();
+  if (timeNow - lastTimeStateChanged > debounceDelay) {
+    byte newState = digitalRead(pin);
+    if (newState != state) {
+        state = newState;
+        lastTimeStateChanged = timeNow;
+    }
+  } 
+
 }
 
 bool PushButton::isPressed()
 {
   readState();
   if (isPullUp) {
-    return (state == LOW);
+    return (state == HIGH);
   }
   else{
-    return (state == HIGH);
+    return (state == LOW);
   }
 }

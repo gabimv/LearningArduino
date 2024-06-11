@@ -1,8 +1,8 @@
 #include "PushButton.h"
 
-#define BUTTON_PIN 2
+#define BUTTON_PIN 7
 
-PushButton button(BUTTON_PIN, true, true);
+PushButton button(BUTTON_PIN, false, true);
 
 void setup() {
   Serial.begin(115200);

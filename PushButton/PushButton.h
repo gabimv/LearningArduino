@@ -11,6 +11,8 @@ private:
 
   bool isPullUp;
   bool internalPullUpActivated;
+  unsigned long lastTimeStateChanged;
+  unsigned long debounceDelay;
 
   void readState();
 
